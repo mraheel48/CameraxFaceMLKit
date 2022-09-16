@@ -12,7 +12,6 @@ import com.example.cameraxfacemlkit.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
     private var cameraManager: CameraManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +40,10 @@ class MainActivity : AppCompatActivity() {
     private fun onClicks() {
         binding.btnSwitch.setOnClickListener {
             cameraManager?.changeCameraSelector()
+        }
+
+        binding.takePhoto.setOnClickListener {
+            cameraManager?.takePhoto()
         }
     }
 

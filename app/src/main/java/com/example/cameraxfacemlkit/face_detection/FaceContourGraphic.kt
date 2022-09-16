@@ -42,7 +42,7 @@ class FaceContourGraphic(
     }
 
     companion object {
-        private const val BOX_STROKE_WIDTH = 5.0f
+        private const val BOX_STROKE_WIDTH = 2.0f
     }
 
 }

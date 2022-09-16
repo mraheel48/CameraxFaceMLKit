@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">CameraxFaceMLKit</string>
     <string name="switch_camera">Switch Camera</string>
+    <string name="take_pci">Take Photo</string>
 </resources>
