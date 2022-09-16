@@ -1,9 +1,7 @@
 package com.example.cameraxfacemlkit.face_detection
 
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Rect
+import android.graphics.*
+import com.example.cameraxfacemlkit.R
 import com.example.cameraxfacemlkit.camerax.GraphicOverlay
 import com.google.mlkit.vision.face.Face
 
@@ -16,9 +14,9 @@ class FaceContourGraphic(
     private val facePositionPaint: Paint
     private val idPaint: Paint
     private val boxPaint: Paint
-
+    private val stickerBitmap: Bitmap
     init {
-        val selectedColor = Color.WHITE
+        val selectedColor = Color.CYAN
 
         facePositionPaint = Paint()
         facePositionPaint.color = selectedColor
@@ -30,6 +28,9 @@ class FaceContourGraphic(
         boxPaint.color = selectedColor
         boxPaint.style = Paint.Style.STROKE
         boxPaint.strokeWidth = BOX_STROKE_WIDTH
+
+        stickerBitmap = BitmapFactory.decodeResource(overlay.context.resources, R.drawable.snap)
+
     }
 
     override fun draw(canvas: Canvas?) {
@@ -39,6 +40,15 @@ class FaceContourGraphic(
             face.boundingBox
         )
         canvas?.drawRect(rect, boxPaint)
+
+        /*op = Bitmap.createScaledBitmap(
+            bitmap,
+            scaleX(face.getWidth()) as Int,
+            scaleY(bitmap.getHeight() * face.getWidth() / bitmap.getWidth()) as Int,
+            false
+        )*/
+
+        //canvas?.drawBitmap(stickerBitmap, null, rect, boxPaint)
     }
 
     companion object {
