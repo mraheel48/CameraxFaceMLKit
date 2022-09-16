@@ -9,13 +9,11 @@ import androidx.core.content.ContextCompat
 import com.example.cameraxfacemlkit.camerax.CameraManager
 import com.example.cameraxfacemlkit.databinding.ActivityMainBinding
 
-
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private lateinit var cameraManager: CameraManager
+    private var cameraManager: CameraManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun checkForPermission() {
         if (allPermissionsGranted()) {
-            cameraManager.startCamera()
+            cameraManager?.startCamera()
         } else {
             ActivityCompat.requestPermissions(
                 this,
@@ -42,7 +40,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun onClicks() {
         binding.btnSwitch.setOnClickListener {
-            cameraManager.changeCameraSelector()
+            cameraManager?.changeCameraSelector()
         }
     }
 
@@ -53,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (allPermissionsGranted()) {
-                cameraManager.startCamera()
+                cameraManager?.startCamera()
             } else {
                 Toast.makeText(this, "Permissions not granted by the user.", Toast.LENGTH_SHORT)
                     .show()
@@ -64,7 +62,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun createCameraManager() {
         cameraManager = CameraManager(
-            this,
+            this@MainActivity,
             binding.previewViewFinder,
             this,
             binding.graphicOverlayFinder
