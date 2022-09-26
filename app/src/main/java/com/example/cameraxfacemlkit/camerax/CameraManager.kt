@@ -1,6 +1,10 @@
 package com.example.cameraxfacemlkit.camerax
 
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
 import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -8,8 +12,10 @@ import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
+import androidx.core.view.drawToBitmap
 import androidx.lifecycle.LifecycleOwner
 import com.example.cameraxfacemlkit.face_detection.FaceContourDetectionProcessor
+import com.example.cameraxfacemlkit.utils.Util
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -59,8 +65,21 @@ class CameraManager(
                      .setFlashMode(FLASH_MODE_ON)
                      .build()*/
 
+
                 imageCapture = ImageCapture.Builder()
                     .build()
+
+                /*imageCapture = if (Util.resW > 0 && Util.resH> 0){
+                    Log.d("myCameraRes","if -- ${Util.resW} -- ${Util.resH}")
+                    ImageCapture.Builder()
+                        .setTargetResolution(Util.getScreenSize(Util.resW))
+                        .build()
+                }    else{
+                    Log.d("myCameraRes","else")
+                    ImageCapture.Builder()
+                        .setTargetResolution(Size(Util.defaultResW,Util.defaultResH))
+                        .build()
+                }*/
 
                 imageAnalyzer = ImageAnalysis.Builder()
                     .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
@@ -118,6 +137,8 @@ class CameraManager(
         // Get a stable reference of the modifiable image capture use case
         val imageCapture = imageCapture ?: return
 
+        val overlayBitmap = graphicOverlay.drawToBitmap(Bitmap.Config.ARGB_8888)
+
         // Create time-stamped output file to hold the image
         val photoFile = File(
             getOutputDirectory(),
@@ -140,10 +161,33 @@ class CameraManager(
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    val savedUri = Uri.fromFile(photoFile)
-                    val msg = "Photo capture succeeded: $savedUri"
-                    Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, msg)
+
+                   // val savedUri = Uri.fromFile(photoFile)
+
+                    output.savedUri?.let {
+
+                        val savedUri:Uri = it
+
+                        val msg = "Photo capture succeeded: $savedUri"
+
+                        Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show()
+                        Log.d(TAG, msg)
+
+                        val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                            ImageDecoder.decodeBitmap(ImageDecoder.createSource(activity.contentResolver, it))
+                        } else {
+                            MediaStore.Images.Media.getBitmap(activity.contentResolver, it)
+                        }
+
+                        if (bitmap != null){
+
+                            val finalBitmap = Util.mergeToPin(bitmap.copy(Bitmap.Config.ARGB_8888, true),overlayBitmap)
+
+                            Log.d("myBitmapSize","${finalBitmap?.width}")
+                        }
+
+                    }
+
                 }
             })
     }

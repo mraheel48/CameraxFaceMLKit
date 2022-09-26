@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/mainRoot"
     tools:context=".MainActivity">
 
     <FrameLayout
@@ -22,7 +23,7 @@
             app:scaleType="fillCenter" />
 
         <com.example.cameraxfacemlkit.camerax.GraphicOverlay
-            android:id="@+id/graphicOverlay_finder"
+            android:id="@+id/graphicOverlayFinder"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </FrameLayout>

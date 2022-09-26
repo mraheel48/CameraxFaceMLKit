@@ -3,16 +3,22 @@ package com.example.cameraxfacemlkit
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.cameraxfacemlkit.camerax.CameraManager
 import com.example.cameraxfacemlkit.databinding.ActivityMainBinding
+import com.example.cameraxfacemlkit.utils.Util
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private var cameraManager: CameraManager? = null
+
+    private val workHandler = Handler(Looper.getMainLooper())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,12 +70,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun createCameraManager() {
+
+        binding.mainRoot.post {
+            Log.d("myScreenSize","${binding.mainRoot.width}")
+            Util.resW = binding.mainRoot.width
+            Util.resH = binding.mainRoot.height
+
+        }
+
         cameraManager = CameraManager(
             this@MainActivity,
             binding.previewViewFinder,
             this,
             binding.graphicOverlayFinder
         )
+
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
