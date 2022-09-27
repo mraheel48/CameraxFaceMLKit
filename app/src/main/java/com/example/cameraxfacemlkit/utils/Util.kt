@@ -42,14 +42,14 @@ object Util {
 
     fun mergeToPin(back: Bitmap, front: Bitmap): Bitmap? {
 
-        val result = Bitmap.createBitmap(720, 1280, front.config)
+        val result = Bitmap.createBitmap(back.width, back.height, back.config)
 
       //  val result = Bitmap.createBitmap(back.width, back.height, back.config)
-        val resalceBack = Bitmap.createScaledBitmap(back,720, 1280,false)
-        val resalcefotn = Bitmap.createScaledBitmap(front,720, 1280,false)
+       /* val resalceBack = Bitmap.createScaledBitmap(back,720, 1280,false)
+        val resalcefotn = Bitmap.createScaledBitmap(front,720, 1280,false)*/
         val canvas = Canvas(result)
-        canvas.drawBitmap(resalceBack, 0f, 0f, null)
-        canvas.drawBitmap(resalcefotn, 0f, 0f, null)
+        canvas.drawBitmap(back, 0f, 0f, null)
+        canvas.drawBitmap(front, 0f, 0f, null)
         return result
     }
 }

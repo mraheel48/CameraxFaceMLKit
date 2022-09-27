@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
+import android.util.Size
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.*
@@ -66,7 +67,10 @@ class CameraManager(
                      .build()*/
 
 
+
+
                 imageCapture = ImageCapture.Builder()
+                    .setTargetResolution(Size(1280, 720))
                     .build()
 
                 /*imageCapture = if (Util.resW > 0 && Util.resH> 0){
@@ -183,7 +187,7 @@ class CameraManager(
 
                             val finalBitmap = Util.mergeToPin(bitmap.copy(Bitmap.Config.ARGB_8888, true),overlayBitmap)
 
-                            Log.d("myBitmapSize","${finalBitmap?.width}")
+                            Log.d("myBitmapSize","${finalBitmap?.height}")
                         }
 
                     }
