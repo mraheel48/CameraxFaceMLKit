@@ -15,7 +15,7 @@ class FaceContourDetectionProcessor(private val view: GraphicOverlay) :
     BaseImageAnalyzer<List<Face>>() {
 
     private val realTimeOpts = FaceDetectorOptions.Builder()
-        .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_FAST)
+        .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_ACCURATE)
         .setContourMode(FaceDetectorOptions.CONTOUR_MODE_NONE)
         .build()
 
@@ -42,10 +42,17 @@ class FaceContourDetectionProcessor(private val view: GraphicOverlay) :
         rect: Rect
     ) {
         graphicOverlay.clear()
+        if (results.size > 0) {
+            Log.d("myFace", "face list is not null")
+        } else {
+            Log.d("myFace", "face list is null")
+        }
+
         results.forEach {
             val faceGraphic = FaceContourGraphic(graphicOverlay, it, rect)
             graphicOverlay.add(faceGraphic)
         }
+
         graphicOverlay.postInvalidate()
     }
 

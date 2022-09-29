@@ -34,7 +34,7 @@ class CameraManager(
 
     private var camera: Camera? = null
     private lateinit var cameraExecutor: ExecutorService
-    private var cameraSelectorOption = CameraSelector.LENS_FACING_FRONT
+    private var cameraSelectorOption = CameraSelector.LENS_FACING_BACK
     private var cameraProvider: ProcessCameraProvider? = null
 
     private var imageAnalyzer: ImageAnalysis? = null

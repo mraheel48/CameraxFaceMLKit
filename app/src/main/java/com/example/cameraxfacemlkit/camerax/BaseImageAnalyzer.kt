@@ -2,6 +2,7 @@ package com.example.cameraxfacemlkit.camerax
 
 import android.annotation.SuppressLint
 import android.graphics.Rect
+import android.util.Log
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import com.google.android.gms.tasks.Task
@@ -17,6 +18,7 @@ abstract class BaseImageAnalyzer<T> : ImageAnalysis.Analyzer {
         mediaImage?.let {
             detectInImage(InputImage.fromMediaImage(it, imageProxy.imageInfo.rotationDegrees))
                 .addOnSuccessListener { results ->
+
                     onSuccess(
                         results,
                         graphicOverlay,

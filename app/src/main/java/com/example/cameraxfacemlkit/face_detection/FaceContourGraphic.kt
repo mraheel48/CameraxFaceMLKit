@@ -4,10 +4,12 @@ import android.graphics.*
 import android.util.Log
 import com.example.cameraxfacemlkit.R
 import com.example.cameraxfacemlkit.camerax.GraphicOverlay
+import com.example.cameraxfacemlkit.utils.BitmapUtils
+import com.example.cameraxfacemlkit.utils.Util
 import com.google.mlkit.vision.face.Face
 
 class FaceContourGraphic(
-    overlay: GraphicOverlay,
+    private val overlay: GraphicOverlay,
     private val face: Face,
     private val imageRect: Rect
 ) : GraphicOverlay.Graphic(overlay) {
@@ -16,6 +18,7 @@ class FaceContourGraphic(
     private val idPaint: Paint
     private val boxPaint: Paint*/
     private val stickerBitmap: Bitmap
+
     init {
         /*val selectedColor = Color.CYAN
 
@@ -36,16 +39,14 @@ class FaceContourGraphic(
 
     override fun draw(canvas: Canvas?) {
 
+        Log.d("myTag", "${face.headEulerAngleZ}")
+
         val rect = calculateRect(
             imageRect.height().toFloat(),
             imageRect.width().toFloat(),
             face.boundingBox
         )
-
-        Log.d("myTag","${face.leftEyeOpenProbability}")
-
-        //canvas?.drawRect(rect, boxPaint)
-
+        overlay.rotation = face.headEulerAngleZ
         canvas?.drawBitmap(stickerBitmap, null, rect, null)
     }
 
